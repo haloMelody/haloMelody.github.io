@@ -2,6 +2,7 @@
 
 menu:
   主页: /
+  所有文章: /archives
   #随笔: /tags/随笔/
 
 # SubNav
@@ -107,7 +108,7 @@ slider:
 #smart_menu:
 #  friends: false
 smart_menu:
-  innerArchive: '所有文章'
+  innerArchive: '文章查找'
   friends: '友链'
   aboutme: '关于我'
   #tagcloud: '标签'
@@ -118,3 +119,9 @@ friends:
   小红: http://weibo.com/heiRed
 
 aboutme: little dragon
+
+# 页面统计 true为开启
+page_count: false
+
+# 站点统计 true为开启
+site_count: true

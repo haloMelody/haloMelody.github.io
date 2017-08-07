@@ -1,12 +1,20 @@
 ﻿---
-title: 使用HEXO+GITHUB创建个人博客
+title: hexo+github创建个人博客--基础篇
 reward: true
 toc: true
 tags: 
     - hexo
     - github
-    - yilia
+    - nodejs
 ---
+
+-  ## 内容简介
+	
+	> 此篇文章介绍的是基础的hexo+github搭建个人博客的方法，包括搭建之前的准备工作和搭建的步骤过程，当最后达到了预期效果，并且想深入研究其他功能时，可以参考[hexo+github创建个人博客--深入篇](../hexo+github创建个人博客--深入篇),里面介绍了关于博客的主题，图床，评论，统计等功能的配置和实现。
+
+---
+
+<!--more-->
 
 -  ## 工具介绍
 	
@@ -14,9 +22,9 @@ tags:
 
 	> Hexo是一个快速、简洁且高效的博客框架。Hexo使用Markdown解析文章，在几秒内，即可利用靓丽的主题生成静态网页
 
-	### 2.七牛云图床
+	### 2.Markdown介绍
 
-	> 挺好的一个云服务网站，注册后可以免费领取10G免费空间等等，可以将博客中需要使用的图片上传到注册的服务器上，可以加快图片的加载速度，至少比在github上的速度快很多。
+	> Markdown是一种可以使用普通文本编辑器编写的标记语言，通过简单的标记语法，它可以使普通文本内容具有一定的格式。
 
 ---
 
@@ -41,12 +49,12 @@ tags:
 
     ### 2.nodejs安装
 	
-	- 进入[node.js官网][4]安装，按照导航进行，安装完成后配置环境变量，将nodejs目录配到path目录下
+	- 进入[node.js官网][4]安装，按照导航进行
 		```
 		npm -v  //检测nodejs是否安装成功
 		```
 
-	- 此处选择nodejs版本时尽量选择最新的版本，方便后续选择的主题时候的兼容性。
+	- 若出现 命令未找到 的错误提示，则需要手动的配置环境变量，将nodejs目录配到path目录下。此处选择nodejs版本时尽量选择最新的版本，方便后续选择的主题时候的兼容性。
 
     ---
 
@@ -59,19 +67,10 @@ tags:
 		hexo -v //检测是否成功安装
 		```
 
-	- 到此基本的准备工作已完成，以下是提供更加丰富的页面效果时可以选择性添加的
+	- 若出现 命令未找到 的错误提示，则需要手动的配置环境变量，找到hexo的安装目录，全局安装可以参照C:\Users\LittleDragon\AppData\Roaming\npm（改为自己电脑的路径），将此路径配置到path中，并且运行hexo -v检测是否成功。
 
     ---
 
-    ### 4.七牛云账号创建和设置(供博客图床使用，可选择性进行)
-
-    - 进入[七牛云官网][5]注册，按照流程进行，登陆后选择对象存储，此时可以选择绑定域名，在内容管理中可以上传图片，复制图片的链接即可在再网页上访问
-
-    ---
-
-    ### 5.评论功能
-
-    ### 6.统计功能
 
 - ## 博客搭建
 
@@ -82,7 +81,7 @@ tags:
 		git clone  xxx  //复制github仓库路径
 		```
 
-	- 随后在此目录下（保证此时是空文件夹），打开CMD（shift+鼠标右键），运行：
+	- 随后在此目录下（保证此时是空文件夹），打开CMD（shift+鼠标右键），顺序运行：
 		```
 		hexo init //初始化项目
 		npm install hexo //安装插件
@@ -102,6 +101,38 @@ tags:
 		- _config.yml #全局配置文件
 		- package.json
 
+	- 接下来可以运行命令，创建一篇博文，文章使用的是MarkDown语言，具体语法此处不做介绍
+		```
+		hexo new "title" //创建指定标题的文章
+		```
+
+	- 文章内容编辑好以后，执行命令：
+		```
+		hexo clean //清除原有记录
+		hexo g //generate生成html文件
+		hexo s //server本地运行
+		```
+
+	- 本地运行以后会实时的对本地文件进行监控，修改后直接刷新浏览器即可看到效果，到此，简单的个人博客已经搭建完成了，接下来可以件博客发布到github上，让网友可以通过你的域名访问个人博客,发布需要的几个步骤：
+		> 1. 成功安装了发布需要的插件
+			```
+			npm install hexo-deployer-git //发布到git上时必要的插件
+			```
+
+		> 2. 为你的github配置SSH Key，只需要配置一次，详情请参照[github配置SSH Key][6]
+
+		> 3. 在博客项目根目录下的_config.yml中进行如下配置：
+			```
+			deploy:
+			  type: git
+			  repo: git@github.com:yourname/yourname.github.io.git 
+			  branch: master
+			```
+		> 4. 执行发布命令，首次可能需要输入github的用户名和密码
+			```
+			hexo d
+			```
+		> 5. 发布之后可以登录你的域名查看效果
 
 ------
   
@@ -109,4 +140,4 @@ tags:
   [2]: https://github.com/haloMelody
   [3]: https://git-scm.com/downloads
   [4]: https://nodejs.org/
-  [5]: https://www.qiniu.com/
+  [6]: http://jingyan.baidu.com/article/a65957f4e91ccf24e77f9b11.html
