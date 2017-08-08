@@ -1,5 +1,6 @@
 ﻿---
 title: hexo+github创建个人博客--深入篇
+comments: true
 reward: true
 toc: true
 tags: 
@@ -302,10 +303,17 @@ tags:
 
 	### 2.更新
 
-	- 在本地项目中运行
+	- 在本地项目中运行命令：
 		```
 		git pull	//更新到本地
 		git status	//查看文件对比后的状态
+		```
+
+	- 首次更新代码需要执行以下命令(注意不要执行hexo init命令)：
+		```
+		git clone  xxx  //复制github仓库路径
+		npm install hexo //安装插件
+		npm install hexo-deployer-git //发布到git上时必要的插件
 		```
 
 	---
@@ -320,13 +328,106 @@ tags:
 
 	- 七牛云账号创建和设置
 
-    > 进入[七牛云官网][5]注册，按照流程进行，登陆后选择对象存储，此时可以选择绑定域名，在内容管理中可以上传图片，复制图片的链接即可在再网页上访问
+    > 进入[七牛云官网][5]注册，按照流程进行，登陆后选择对象存储，此时可以选择绑定域名(需要已备案)，在内容管理中可以上传图片，复制图片的链接即可在再网页上访问
 	
     ### 2.评论功能
 
-    - 具体请参考wiki：https://github.com/litten/hexo-theme-yilia/wiki/
+    - 第三方的评论插件有很多种，具体介绍可以参考[wiki][10]，根据自己的情况选择
+
+    - yilia主题中已经集成了duoshuo,畅言,网易云跟帖，disqus这几款评论插件，按照提示修改配置文件即可
+
+    - 鉴于此时还没有备案的域名，所以提供另外一个评论插件的配置-[来必力][6],有备案域名的朋友可以考虑畅言
+
+		> 1. 进入[来必力][6]，注册，登陆，点击右上角选择管理页面
+
+		> 2. 选择生成一个city版本的评论系统，绑定自己的域名，填写必要信息，最后会生成一份JS代码
+
+		![livere-js][7]
+
+		> 3. 在博客项目的...\themes\yilia\layout\\_partial\post目录下新建livere.ejs文件，将此段代码copy进去，为了方便灵活的管理，进行如下修改：
+		```
+		data-uid="<%=theme.livere_uid%>" //将此处的ID配置在主题配置文件中
+		```
+
+		> 4. 在主题配置文件中加入：
+		```
+		livere: true	//开启或关闭
+		livere-uid: 'your-livere-uid'
+		```
+
+		> 5. 最后需要将创建的livere.ejs文件引入到文章中，打开...\themes\yilia\layout\\_partial\article.ejs文件，在以下位置插入如下代码：
+		```
+		<% if (!index && post.comments){ %>
+			<% if (theme.livere && theme.livere_uid){ %>
+			  <%- partial('post/livere', {
+			      key: post.slug,
+			      title: post.title,
+			      url: config.url+url_for(post.path)
+			  }) %>
+			<% } %>
+		<% } %>
+		```
+
+		> 6. 生成发布查看效果即可，之后可以通过来必力对评论进行管理，并且可以设置邮箱提醒功能
+
+		> 7. 可以通过在文章md文件中通过**comments: false** 来关闭某篇文章的评论功能
+
+	---
 
     ### 3.统计功能
+
+	- yilia主题中集成了google_analytics和baidu_analytics的统计功能，选择一种进行注册，绑定域名即可，但是页面不会有显示的效果，此处，我集成了一个第三方统计插件-[不蒜子][8],按照官网提示操作步骤进行即可，详细如下：
+
+		> 1. 打开\themes\yilia\layout\\_partial目录下的footer.ejs文件，首先最最后copy以下一行代码：
+		```
+		<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+		```
+
+		> 2. 此处为了方便灵活管理，可以通过配置文件控制显示，选择合适的位置(我选择加在footer.ejs中)，可以加入如下配置：
+		```
+		<div class="footer-left">
+		&copy; <%= date(new Date(), 'YYYY') %> <%= config.author || config.title %>
+		<% if (theme.site_count){ %>
+			<span id="busuanzi_container_site_pv">本站被踩过<span id="busuanzi_value_site_pv"></span>次</span>
+		<% } %>
+        <% if (theme.user_count){ %>
+        <span id="busuanzi_container_site_uv">被<span id="busuanzi_value_site_uv"></span>人踩过</span>
+        <% } %>
+    	</div>
+		```
+
+		> 3. 预览效果为： <center>![count-2][9]</center>
+
+		> 4. 在文章标题后面显示文章的访问量，在\themes\yilia\layout\\_partial下的article.ejs中的以下位置加入：
+		```
+		<header class="article-header">
+        <%- partial('post/title', {class_name: 'article-title'}) %>
+        <% if (theme.page_count && !index){ %>
+          </br>
+          <a class="article-count-a-tag" href="javascript:void(0);">
+            <span class="icon-sort"></span>
+            <span id="busuanzi_container_page_pv" class="article-count-a-span">
+                    被偷看了：<span id="busuanzi_value_page_pv"></span>次
+            </span>
+          </a>
+        <% } %> 
+        <% if (!post.noDate){ %>
+        <%- partial('post/date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+        </header>
+		```
+
+		> 5. 此处有一个小细节就是判断条件中加入 **!index** 判断条件，在主页时不显示，点击进入某文章时才显示统计的效果，最后还需要在...\themes\yilia\source的main.css中加入自定义的class，我定义的为：
+		```
+		.article-count-a-tag{color:gray;font-size:14px;} 
+		.article-count-a-span{color:#ef7522;font-size:14px;}
+		```
+
+		> 6. 最终效果为：
+
+		> 	![count-1][8]
+		
+	---
 
     ### (未完待续 ......)
 
@@ -337,3 +438,8 @@ tags:
   [3]: https://github.com/litten/hexo-theme-yilia
   [4]: http://ou36vgj5u.bkt.clouddn.com/image/blog/hexo+github%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2--%E6%B7%B1%E5%85%A5%E7%AF%87/hexo-yilia-pop.png
   [5]: https://www.qiniu.com/
+  [6]: https://livere.com
+  [7]: http://ou36vgj5u.bkt.clouddn.com/image/blog/hexo+github%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2--%E6%B7%B1%E5%85%A5%E7%AF%87/livere-js.png
+  [8]: http://ou36vgj5u.bkt.clouddn.com/image/blog/hexo+github%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2--%E6%B7%B1%E5%85%A5%E7%AF%87/count-1.png
+  [9]: http://ou36vgj5u.bkt.clouddn.com/image/blog/hexo+github%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2--%E6%B7%B1%E5%85%A5%E7%AF%87/count-2.png
+  [10]: https://github.com/litten/hexo-theme-yilia/wiki/

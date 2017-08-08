@@ -3,7 +3,7 @@
 menu:
   主页: /
   所有文章: /archives
-  #随笔: /tags/随笔/
+  留言: /message
 
 # SubNav
 subnav:
@@ -31,7 +31,6 @@ rss: /atom.xml
 # 请将您的 url 设为 http://yoursite.com/blog 并把 root 设为 /blog/。
 
 # Content
-
 # 文章太长，截断按钮文字
 excerpt_link: more
 # 文章卡片右下角常驻链接，不需要请设置为false
@@ -82,13 +81,17 @@ duoshuo: false
 #2、网易云跟帖
 wangyiyun: false
 
+#2、来必力
+livere: true
+livere_uid: 'MTAyMC8zMDA1MC82NjE0'
+
 #3、畅言
 changyan_appid: false
 changyan_conf: false
 
 #4、Disqus 在hexo根目录的config里也有disqus_shortname字段，优先使用yilia的
 disqus: false
-#disqus_shortname: halomelody
+disqus_shortname: halomelody
 
 # 样式定制 - 一般不需要修改，除非有很强的定制欲望…
 style:
@@ -118,10 +121,13 @@ friends:
   石总: https://minigoooo.github.io
   小红: http://weibo.com/heiRed
 
-aboutme: little dragon
+aboutme: 生活不止眼前的苟且，还有诗和远方的田野</br>没有故事，酒也喝不起
 
 # 页面统计 true为开启
-page_count: false
+page_count: true
 
-# 站点统计 true为开启
+# 站点访问次数统计 true为开启
 site_count: true
+
+# 站点访问人数数统计 true为开启
+user_count: true

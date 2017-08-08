@@ -3,10 +3,14 @@
     <% if (post.link || post.title){ %>
       <header class="article-header">
         <%- partial('post/title', {class_name: 'article-title'}) %>
-        <% if (theme.page_count){ %>
-          <div class="article-count">
-            <span id="busuanzi_container_page_pv">共访问<span id="busuanzi_value_page_pv"></span>次</span>
-          </div>  
+        <% if (theme.page_count && !index){ %>
+          </br>
+          <a class="article-count-a-tag" href="javascript:void(0);">
+            <span class="icon-sort"></span>
+            <span id="busuanzi_container_page_pv" class="article-count-a-span">
+                    被偷看了：<span id="busuanzi_value_page_pv"></span>次
+            </span>
+          </a>
         <% } %> 
         <% if (!post.noDate){ %>
         <%- partial('post/date', {class_name: 'archive-article-date', date_format: null}) %>
@@ -103,6 +107,14 @@
 
   <% if (theme.changyan_appid && theme.changyan_conf){ %>
   <%- partial('post/changyan', {
+      key: post.slug,
+      title: post.title,
+      url: config.url+url_for(post.path)
+    }) %>
+  <% } %>
+
+  <% if (theme.livere && theme.livere_uid){ %>
+  <%- partial('post/livere', {
       key: post.slug,
       title: post.title,
       url: config.url+url_for(post.path)

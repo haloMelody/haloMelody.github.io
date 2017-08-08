@@ -4,8 +4,11 @@
     	<div class="footer-left">
     		&copy; <%= date(new Date(), 'YYYY') %> <%= config.author || config.title %>
     		<% if (theme.site_count){ %>
-				<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+				<span id="busuanzi_container_site_pv">本站被踩过<span id="busuanzi_value_site_pv"></span>次</span>
     		<% } %>
+            <% if (theme.user_count){ %>
+            <span id="busuanzi_container_site_uv">被<span id="busuanzi_value_site_uv"></span>人踩过</span>
+            <% } %>
     	</div>
     </div>
   </div>
