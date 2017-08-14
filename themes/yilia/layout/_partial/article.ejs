@@ -27,6 +27,16 @@
         <%- post.content %>
       <% } %>
 
+      <% if (post.copyright && !index){ %>
+      	<blockquote>
+			<p>
+				本文作者： little dragon<br>
+				本文链接： <a href="/<%=post.path%>"><%=post.path%></a><br>
+				版权声明： 原创文章，有问题请评论中留言。非商业转载请注明作者及出处。
+			</p>
+		</blockquote>
+      <% } %>
+
       <% if ((theme.reward_type === 2 || (theme.reward_type === 1 && post.reward)) && !index){ %>
         <div class="page-reward">
           <a href="javascript:;" class="page-reward-btn tooltip-top">

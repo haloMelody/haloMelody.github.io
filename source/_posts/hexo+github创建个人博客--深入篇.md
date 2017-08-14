@@ -3,6 +3,7 @@ title: hexo+github创建个人博客--深入篇
 comments: true
 reward: true
 toc: true
+copyright: true
 tags: 
     - hexo
     - github
