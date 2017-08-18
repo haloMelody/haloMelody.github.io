@@ -13,7 +13,9 @@ tags:
 
 -  ## 内容简介
 
-	> 此篇文章是介绍Dubbo以及它的简单使用，会列举运用spring boot + dubbo搭建项目运用dubbo的步骤，主要是介绍一下dubbo的作用以及简单的配置，若有兴趣的朋友可以继续关注后续的[dubbo][1]系列文章，也可以参考[官方文档][2]进行学习.
+	> 此篇文章是介绍Dubbo以及它的简单使用，会列举运用spring boot + dubbo搭建项目运用dubbo的步骤，主要是介绍一下dubbo的作用以及简单的配置，若有兴趣的朋友可以继续关注后续的[dubbo][1]系列文章，也可以参考[官方文档][2]进行学习.个人的一点心得和想法，有错误还请指正。
+
+---
 
 <!-- more -->
 
@@ -35,6 +37,8 @@ tags:
 
 	> 小项目中dubbo作用不明显，因为项目中的Api都是通过直接依赖调用，当项目庞大比并且服务需要多次重复性的调用时，就需要一个框架来治理，dubbo可以做到的效果就是通多xml文件配置，达到一次提供，到处调用的效果，并且和可以对服务的提供者和消费者进行管理；就是将提供服务的Api打包到服务器，同时注册到注册中心（zookeeper）,需要调用此服务的只需依赖服务器上的jar包，配置消费者服务即可调用Api。
 
+	---
+
 	### 3.基本概念
 
 	- 节点角色说明
@@ -48,11 +52,9 @@ tags:
 		- monitor 统计中心
 		- container 运行容器
 
-	---
+	- 调用关系说明:
 
-	- 调用关系说明：
-
-		>
+		> 
 		- 服务容器负责启动，加载，运行服务提供者。
 	    - 服务提供者在启动时，向注册中心注册自己提供的服务。
 	    - 服务消费者在启动时，向注册中心订阅自己所需的服务。
@@ -62,329 +64,397 @@ tags:
 
 	---
 
--  ## Dubbo使用（Simple）
-
+-  ## dubbo-provider搭建（Simple）
 
 	### 1.准备工作
 
 	> 为了更加直观的体现dubbo的作用，在此我会搭建一个简单的maven项目，通过项目的搭建流程和dubbo的相关简单配置，介绍dubbo的使用，所以，需要做好以下最基本的准备工作：
 
-		- JDK(1.8)
-		- 开发工具(IDEA)
-		- maven(3.3.9)
-		- zookepper(注册中心)
-
-
-	### 2.项目搭建
-
-	- *dubbo-provider*
-
 	> 
-		- 为了后续代码更好的演示，将两个项目建立在一个工作空间下（IDEA），创建简单的接口和实现类，简单的测试方法，基本结构为：
-
-		![dubbo-project][4]
-
-		- 接口基本实现为：
-		```
-		public interface ISimpleService {
-		    public String sayHello(String name);
-		}
-
-		@Service
-		public class SimpleServiceImpl implements ISimpleService {
-		    public String sayHello(String name) {
-		        return "Hello" + name;
-		    }
-		}
-
-		```
-
----
-
-		- 配置simple-provider.pom,搭建spring boot运行环境，这里给出一个基本的模板，其中包含mysql的依赖，以及使用基本dubbo的依赖，还有注册中心zookeeper的相关依赖，可以根据实际情况修改：
-		```
-		<parent>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-parent</artifactId>
-		    <version>1.2.8.RELEASE</version>
-		</parent>
-
-		<dependencies>
-		    <dependency>
-		        <groupId>org.springframework.boot</groupId>
-		        <artifactId>spring-boot-starter-web</artifactId>
-		        <exclusions>
-		            <exclusion>
-		                <artifactId>logback-classic</artifactId>
-		                <groupId>ch.qos.logback</groupId>
-		            </exclusion>
-		            <exclusion>
-		                <artifactId>log4j-over-slf4j</artifactId>
-		                <groupId>org.slf4j</groupId>
-		            </exclusion>
-		        </exclusions>
-		    </dependency>
-		    <dependency>
-		        <groupId>org.springframework</groupId>
-		        <artifactId>spring-context-support</artifactId>
-		    </dependency>
-		    <dependency>
-		        <groupId>org.springframework</groupId>
-		        <artifactId>spring-jdbc</artifactId>
-		    </dependency>
-		    <dependency>
-		        <groupId>org.slf4j</groupId>
-		        <artifactId>slf4j-log4j12</artifactId>
-		    </dependency>
-		    <dependency>
-		        <groupId>org.springframework.boot</groupId>
-		        <artifactId>spring-boot-starter-jdbc</artifactId>
-		    </dependency>
-		    <dependency>
-		        <groupId>mysql</groupId>
-		        <artifactId>mysql-connector-java</artifactId>
-		    </dependency>
-		    <!--dubbo-->
-		    <dependency>
-		        <groupId>com.alibaba</groupId>
-		        <artifactId>dubbo</artifactId>
-		        <version>2.8.4</version>
-		    </dependency>
-		    <!--zookeeper 相关-->
-		    <dependency>
-		        <groupId>org.apache.zookeeper</groupId>
-		        <artifactId>zookeeper</artifactId>
-		        <version>3.4.8</version>
-		    </dependency>
-		    <dependency>
-		        <groupId>com.github.sgroschupf</groupId>
-		        <artifactId>zkclient</artifactId>
-		        <version>0.1</version>
-		    </dependency>
-		</dependencies>
-
-		<dependencyManagement>
-		    <dependencies>
-		        <dependency>
-		            <!-- Import dependency management from Spring Boot -->
-		            <groupId>org.springframework.boot</groupId>
-		            <artifactId>spring-boot-dependencies</artifactId>
-		            <version>1.2.8.RELEASE</version>
-		            <type>pom</type>
-		            <scope>import</scope>
-		        </dependency>
-		    </dependencies>
-		</dependencyManagement>
-
-		<repositories>
-		    <repository>
-		        <id>public</id>
-		        <name>nexus-repository</name>
-		        <url>http://192.168.1.169:8080/nexus/content/groups/public</url>
-		        <releases>
-		            <enabled>true</enabled>
-		        </releases>
-		        <snapshots>
-		            <enabled>true</enabled>
-		        </snapshots>
-		    </repository>
-		    <repository>
-		        <id>release</id>
-		        <name>nexus-repository</name>
-		        <url>http://192.168.1.169:8080/nexus/content/repositories/releases</url>
-		        <releases>
-		            <enabled>true</enabled>
-		        </releases>
-		        <snapshots>
-		            <enabled>true</enabled>
-		        </snapshots>
-		    </repository>
-		</repositories>
-		<pluginRepositories>
-		    <pluginRepository>
-		        <id>nexus</id>
-		        <name>nexus-repository</name>
-		        <url>http://192.168.1.169:8080/nexus/content/groups/public/</url>
-		        <releases>
-		            <enabled>true</enabled>
-		        </releases>
-		        <snapshots>
-		            <enabled>false</enabled>
-		        </snapshots>
-		    </pluginRepository>
-		</pluginRepositories>
-
-		<build>
-		    <plugins>
-		        <plugin>
-		            <groupId>org.springframework.boot</groupId>
-		            <artifactId>spring-boot-maven-plugin</artifactId>
-		            <executions>
-		                <execution>
-		                    <goals>
-		                        <goal>repackage</goal>
-		                    </goals>
-		                </execution>
-		            </executions>
-		        </plugin>
-		    </plugins>
-		</build>
-
-		```
-	---
-
-		- 配置完pom文件后还需要配置application.xml(spring默认加载的配置文件，根目录下即可，也可以自己修改配置文件制定)，由于spring boot默认会配置jdbcTemplate，所以需要指定一个dataSourcec(也可通过配置修改，不多说)：
-		```
-		# 制定spring boot运行的端口
-		server.port=8899
-
-		#db properties 需要指定一个datasource
-		spring.datasource.url=xxx
-		spring.datasource.username=xxx
-		spring.datasource.password=xxx
-		spring.datasource.driver-class-name=com.mysql.jdbc.Driver
-
-		```
+	- JDK(1.8)
+	- 开发工具(IDEA)
+	- maven(3.3.9)
+	- zookepper(注册中心)
 
 	---
 
-		- 随后配置simple-dubbo-provider.xml，此处我们做最简单的配置：
-		```
-		<?xml version="1.0" encoding="UTF-8"?>
-		<beans xmlns="http://www.springframework.org/schema/beans"
-		       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		       xmlns:context="http://www.springframework.org/schema/context"
-		       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
-		       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	### 2.项目结构
 
-		    <!--提供的服务名称 自己指定即可 代表你提供的这个服务-->
-		    <dubbo:application name="simpleprovider"></dubbo:application>
-		    <!--注册中心 本地启动zookeeper后默认的ip+port-->
-		    <dubbo:registry address="zookeeper://127.0.0.1:2181"></dubbo:registry>
-		    <!--协议 port自己指定-->
-		    <dubbo:protocol name="dubbo" port="8899"></dubbo:protocol>
-		    <!--提供的接口服务-->
-		    <dubbo:service ref="simpleServiceImpl" interface="cn.littledragon.dubbo.service.ISimpleService"></dubbo:service>
+	> 为了后续代码更好的演示，将两个项目建立在一个工作空间下（IDEA），创建简单的接口和实现类，简单的测试方法，基本结构为：
 
-		```
+	<center>![dubbo-project][4]</center>
 
-	---
+	- 接口基本实现为：
+	```
+	public interface ISimpleService {
+	    public String sayHello(String name);
+	}
 
-		- 最后可以配置日志文件进行，进行日志记录
+	@Service
+	public class SimpleServiceImpl implements ISimpleService {
+	    public String sayHello(String name) {
+	        return "Hello" + name;
+	    }
+	}
 
-		- 最后，编写main函数运行项目，运用spring boot中写好的main方法，加以修改：
-		```
-		@SpringBootApplication
-		@ComponentScan("cn.littledragon")
-		// @MapperScan(basePackages = "com.tdh.swaptrailer.comm.dal.mapper")
-		@ImportResource("simple-dubbo-spring.xml")
-		public class Application {
-
-		   public static final String CONTAINER_KEY = "dubbo.container";
-
-		   public static final String SHUTDOWN_HOOK_KEY = "dubbo.shutdown.hook";
-
-		   private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
-
-		   private static final ExtensionLoader<Container> LOADER = ExtensionLoader.getExtensionLoader(Container.class);
-
-		   private static volatile boolean running = true;
-
-		   protected static void keepRunning(String[] args) {
-		      try {
-		         if (args == null || args.length == 0) {
-		            String config = ConfigUtils.getProperty(CONTAINER_KEY, LOADER.getDefaultExtensionName());
-		            args = Constants.COMMA_SPLIT_PATTERN.split(config);
-		         }
-
-		         final List<Container> containers = new ArrayList<Container>();
-		         for (int i = 0; i < args.length; i++) {
-		            containers.add(LOADER.getExtension(args[i]));
-		         }
-		         LOGGER.info("Use container type(" + Arrays.toString(args) + ") to run dubbo serivce.");
-
-		         if ("true".equals(System.getProperty(SHUTDOWN_HOOK_KEY))) {
-		            Runtime.getRuntime().addShutdownHook(new Thread() {
-		               public void run() {
-		                  for (Container container : containers) {
-		                     try {
-		                        container.stop();
-		                        LOGGER.info("Dubbo " + container.getClass().getSimpleName() + " stopped!");
-		                     } catch (Exception t) {
-		                        LOGGER.error(t.getMessage(), t);
-		                     }
-		                     synchronized (Application.class) {
-		                        running = false;
-		                        Application.class.notify();
-		                     }
-		                  }
-		               }
-		            });
-		         }
-
-		         for (Container container : containers) {
-		            container.start();
-		            LOGGER.info("Dubbo " + container.getClass().getSimpleName() + " started!");
-		         }
-		         LOGGER.info(new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]").format(new Date())
-		               + " Dubbo service server started!");
-		      } catch (RuntimeException e) {
-		         LOGGER.error(e.getMessage(), e);
-		      }
-		      synchronized (Application.class) {
-		         while (running) {
-		            try {
-		               Application.class.wait();
-		            } catch (Exception e) {
-		               LOGGER.error(e.getMessage(), e);
-		            }
-		         }
-		      }
-		   }
-
-		   public static void main(String[] args) throws Exception {
-		      // SpringApplication.run(Application.class, args);
-
-		      SpringApplication app = new SpringApplication(Application.class);
-
-		      app.setWebEnvironment(false);
-
-		      app.run(args);
-
-		      keepRunning(args);
-		   }
-		}
-
-		```
-
-
-
+	```
 
 	---
 
 	### 3.spring boot配置
 
+	- 配置项目的pom文件,搭建spring boot运行环境，这里给出一个基本的模板，其中包含mysql的依赖，以及使用基本dubbo的依赖，还有注册中心zookeeper的相关依赖，可以根据实际情况修改：
+	```
+	<parent>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-parent</artifactId>
+	    <version>1.2.8.RELEASE</version>
+	</parent>
+
+	<dependencies>
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-web</artifactId>
+	        <exclusions>
+	            <exclusion>
+	                <artifactId>logback-classic</artifactId>
+	                <groupId>ch.qos.logback</groupId>
+	            </exclusion>
+	            <exclusion>
+	                <artifactId>log4j-over-slf4j</artifactId>
+	                <groupId>org.slf4j</groupId>
+	            </exclusion>
+	        </exclusions>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-context-support</artifactId>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-jdbc</artifactId>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.slf4j</groupId>
+	        <artifactId>slf4j-log4j12</artifactId>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-jdbc</artifactId>
+	    </dependency>
+	    <dependency>
+	        <groupId>mysql</groupId>
+	        <artifactId>mysql-connector-java</artifactId>
+	    </dependency>
+	    <!--dubbo-->
+	    <dependency>
+	        <groupId>com.alibaba</groupId>
+	        <artifactId>dubbo</artifactId>
+	        <version>2.8.4</version>
+	    </dependency>
+	    <!--zookeeper 相关-->
+	    <dependency>
+	        <groupId>org.apache.zookeeper</groupId>
+	        <artifactId>zookeeper</artifactId>
+	        <version>3.4.8</version>
+	    </dependency>
+	    <dependency>
+	        <groupId>com.github.sgroschupf</groupId>
+	        <artifactId>zkclient</artifactId>
+	        <version>0.1</version>
+	    </dependency>
+	</dependencies>
+
+	<dependencyManagement>
+	    <dependencies>
+	        <dependency>
+	            <!-- Import dependency management from Spring Boot -->
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-dependencies</artifactId>
+	            <version>1.2.8.RELEASE</version>
+	            <type>pom</type>
+	            <scope>import</scope>
+	        </dependency>
+	    </dependencies>
+	</dependencyManagement>
+
+	<repositories>
+	    <repository>
+	        <id>public</id>
+	        <name>nexus-repository</name>
+	        <url>http://192.168.1.169:8080/nexus/content/groups/public</url>
+	        <releases>
+	            <enabled>true</enabled>
+	        </releases>
+	        <snapshots>
+	            <enabled>true</enabled>
+	        </snapshots>
+	    </repository>
+	    <repository>
+	        <id>release</id>
+	        <name>nexus-repository</name>
+	        <url>http://192.168.1.169:8080/nexus/content/repositories/releases</url>
+	        <releases>
+	            <enabled>true</enabled>
+	        </releases>
+	        <snapshots>
+	            <enabled>true</enabled>
+	        </snapshots>
+	    </repository>
+	</repositories>
+	<pluginRepositories>
+	    <pluginRepository>
+	        <id>nexus</id>
+	        <name>nexus-repository</name>
+	        <url>http://192.168.1.169:8080/nexus/content/groups/public/</url>
+	        <releases>
+	            <enabled>true</enabled>
+	        </releases>
+	        <snapshots>
+	            <enabled>false</enabled>
+	        </snapshots>
+	    </pluginRepository>
+	</pluginRepositories>
+
+	<build>
+	    <plugins>
+	        <plugin>
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-maven-plugin</artifactId>
+	            <executions>
+	                <execution>
+	                    <goals>
+	                        <goal>repackage</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+	        </plugin>
+	    </plugins>
+	</build>
+
+	```
+
+	- 配置完pom文件后还需要配置application.xml(spring默认加载的配置文件，根目录下即可，也可以自己修改配置文件制定)，由于spring boot默认会配置jdbcTemplate，所以需要指定一个dataSourcec(也可通过配置修改，不多说)：
+	```
+	# 制定spring boot运行的端口
+	server.port=8899
+
+	#db properties 需要指定一个datasource
+	spring.datasource.url=xxx
+	spring.datasource.username=xxx
+	spring.datasource.password=xxx
+	spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+
+	```
+
 	---
 
-	### 4.代码编辑
+	### 4.dubbo配置
+
+	- 随后配置simple-dubbo-provider.xml，此处我们做最简单的配置：
+	```
+	<?xml version="1.0" encoding="UTF-8"?>
+	<beans xmlns="http://www.springframework.org/schema/beans"
+	       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	       xmlns:context="http://www.springframework.org/schema/context"
+	       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	    <!--提供的服务名称 自己指定即可 代表你提供的这个服务-->
+	    <dubbo:application name="simpleprovider"></dubbo:application>
+	    <!--注册中心 本地启动zookeeper后默认的ip+port-->
+	    <dubbo:registry address="zookeeper://127.0.0.1:2181"></dubbo:registry>
+	    <!--协议 port自己指定-->
+	    <dubbo:protocol name="dubbo" port="8899"></dubbo:protocol>
+	    <!--提供的接口服务-->
+	    <dubbo:service ref="simpleServiceImpl" interface="cn.littledragon.dubbo.service.ISimpleService"></dubbo:service>
+
+	```
 
 	---
 
-	### 5.dubbo配置
+	### 5.运行函数
+
+	- 最后可以配置日志文件进行，进行日志记录,随后编写main函数运行项目，运用spring boot中写好的main方法，加以修改：
+	```
+	@SpringBootApplication
+	@ComponentScan("cn.littledragon")
+	// @MapperScan(basePackages = "com.tdh.swaptrailer.comm.dal.mapper")
+	@ImportResource("simple-dubbo-spring.xml")
+	public class Application {
+
+	   public static final String CONTAINER_KEY = "dubbo.container";
+
+	   public static final String SHUTDOWN_HOOK_KEY = "dubbo.shutdown.hook";
+
+	   private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
+
+	   private static final ExtensionLoader<Container> LOADER = ExtensionLoader.getExtensionLoader(Container.class);
+
+	   private static volatile boolean running = true;
+
+	   protected static void keepRunning(String[] args) {
+	      try {
+	         if (args == null || args.length == 0) {
+	            String config = ConfigUtils.getProperty(CONTAINER_KEY, LOADER.getDefaultExtensionName());
+	            args = Constants.COMMA_SPLIT_PATTERN.split(config);
+	         }
+
+	         final List<Container> containers = new ArrayList<Container>();
+	         for (int i = 0; i < args.length; i++) {
+	            containers.add(LOADER.getExtension(args[i]));
+	         }
+	         LOGGER.info("Use container type(" + Arrays.toString(args) + ") to run dubbo serivce.");
+
+	         if ("true".equals(System.getProperty(SHUTDOWN_HOOK_KEY))) {
+	            Runtime.getRuntime().addShutdownHook(new Thread() {
+	               public void run() {
+	                  for (Container container : containers) {
+	                     try {
+	                        container.stop();
+	                        LOGGER.info("Dubbo " + container.getClass().getSimpleName() + " stopped!");
+	                     } catch (Exception t) {
+	                        LOGGER.error(t.getMessage(), t);
+	                     }
+	                     synchronized (Application.class) {
+	                        running = false;
+	                        Application.class.notify();
+	                     }
+	                  }
+	               }
+	            });
+	         }
+
+	         for (Container container : containers) {
+	            container.start();
+	            LOGGER.info("Dubbo " + container.getClass().getSimpleName() + " started!");
+	         }
+	         LOGGER.info(new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]").format(new Date())
+	               + " Dubbo service server started!");
+	      } catch (RuntimeException e) {
+	         LOGGER.error(e.getMessage(), e);
+	      }
+	      synchronized (Application.class) {
+	         while (running) {
+	            try {
+	               Application.class.wait();
+	            } catch (Exception e) {
+	               LOGGER.error(e.getMessage(), e);
+	            }
+	         }
+	      }
+	   }
+
+	   public static void main(String[] args) throws Exception {
+	      // SpringApplication.run(Application.class, args);
+
+	      SpringApplication app = new SpringApplication(Application.class);
+
+	      app.setWebEnvironment(false);
+
+	      app.run(args);
+
+	      keepRunning(args);
+	   }
+	}
+
+	```
 
 	---
 
-	### 6.运行效果
+- ## dubbo-consumer搭建
+
+	- ### 准备工作
+
+	> 在dubbo-provider相同目录下创建dubbo-consumer项目，二者处于同一目录下同一等级
 
 	---
 
+	- ### spring boot配置
 
-- ## 结语
+	> 步骤与dubbo-provider相同，此处多一个步骤就是需要将别人提供的服务（也就是需要使用、消费的服务）引入进来：
+	```
+	<dependency>
+	    <groupId>cn.littledragon</groupId>
+	    <artifactId>dubbo.provider</artifactId>
+	    <version>1.0-SNAPSHOT</version>
+	</dependency>
+	```
+
+	---
+
+	- ### dubbo配置
+
+	> 随后配置simple-dubbo-provider.xml，此处我们做最简单的配置：
+	```
+	<?xml version="1.0" encoding="UTF-8"?>
+	<beans xmlns="http://www.springframework.org/schema/beans"
+	       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	       xmlns:context="http://www.springframework.org/schema/context"
+	       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	    <!-- 服务名称 与提供服务名称对应 -->
+	    <dubbo:application name="simpleprovider"></dubbo:application>
+	    <!--注册中心-->
+	    <dubbo:registry address="zookeeper://127.0.0.1:2181"></dubbo:registry>
+	    <!--使用服务 引入依赖后，就可以直接使用此接口 -->
+	    <dubbo:reference interface="cn.littledragon.dubbo.service.ISimpleService" id="simpleService"/>
+
+	</beans>
+	```
+
+	---
+
+	- ### 运行函数
+
+	> Application.java也与dubbo-provider相同即可
+
+	---
+
+	- ### 测试函数
+	
+	> 编写测试类，测试服务使用情况
+	```
+	public class ConsumerTest {
+
+	    public static void main(String[] args){
+
+	        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"simple-dubbo-spring.xml"});
+
+	        context.start();
+
+	        ISimpleService simpleService = (ISimpleService)context.getBean("simpleService");
+
+	        System.out.println(simpleService.sayHello(" littledragon ..."));
+
+	    }
+
+	}
+	```
+
+	---
+
+- ## 运行效果
+
+	> 
+	- 首先本地运行zookepper
+	- 运行dubbo-provider项目的Application.main()，打印dubbo started即可
+	- 运行dubbo-consumer项目的Application.main()，打印dubbo started即可
+	- 运行测试函数.main()，可以看到输出结果：
+	```
+	hello  littledragon ...
+	```
 
 ---
 
+- ## 结语
 
+> 通过这个例子可以看出，我们在通过提供方提供服务到注册中心，消费方通过配置到注册中心上取到该服务，再进行消费（调用），即可达到不同项目之间的相互调用，也验证了**分布式管理**的意义，此处只是一个简单的小例子，在实际项目运用中，这种模式加上这个框架的好处会更加明显，后续也会给出关于dubbo其他更深入的运用。
 
+---
 
-[1]: http://dubbo.io/user-guide/
+[1]: /categories/dubbo/
 [2]: http://dubbo.io/user-guide/ 
+[3]: http://ou36vgj5u.bkt.clouddn.com/image/blog/dubbo/dubbo-node.jpg
+[4]: http://ou36vgj5u.bkt.clouddn.com/image/blog/dubbo/dubbo-project.png
