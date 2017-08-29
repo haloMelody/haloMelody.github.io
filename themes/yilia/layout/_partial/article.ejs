@@ -115,7 +115,7 @@
     }) %>
   <% } %>
 
-  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <% if (theme.changyan_open && theme.changyan_appid && theme.changyan_conf){ %>
   <%- partial('post/changyan', {
       key: post.slug,
       title: post.title,
