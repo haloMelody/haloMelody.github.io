@@ -1,6 +1,6 @@
-﻿---
+---
 title: hexo+github创建个人博客--深入篇
-date: 2017-07-17 16:02:11
+date: 2017-07-23 19:02:11
 comments: true
 reward: true
 toc: true
@@ -315,7 +315,9 @@ tags:
 		```
 		git clone  xxx  //复制github仓库路径
 		npm install hexo //安装插件
+		npm install	
 		npm install hexo-deployer-git //发布到git上时必要的插件
+		npm install hexo-server --save //3.0以后server独立出来 需要额外install
 		```
 
 	---
@@ -437,7 +439,7 @@ tags:
 
 ------
   
-  [1]: ../hexo+github创建个人博客--基础篇
+  [1]: /2017/07/16/hexo+github创建个人博客--基础篇
   [2]: https://www.zhihu.com/question/24422335
   [3]: https://github.com/litten/hexo-theme-yilia
   [4]: http://ou36vgj5u.bkt.clouddn.com/image/blog/hexo+github%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2--%E6%B7%B1%E5%85%A5%E7%AF%87/hexo-yilia-pop.png
