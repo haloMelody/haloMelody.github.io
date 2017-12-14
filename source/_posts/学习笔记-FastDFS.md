@@ -1,6 +1,6 @@
 ---
 title: 学习笔记-FastDFS
-date: 2017-08-20 16:51:11
+date: 2017-08-30 14:21:51
 toc: true
 reward: true
 comments: true
@@ -260,7 +260,8 @@ tags:
 	store_path_count = 1
 	store_path0 = /home/fastdfs_storage_data
 	group_count = 1
-	#[group1] 最后根据自己实际情况，为每一个组添加如下配置
+	#最后根据自己实际情况，为每一个组添加如下配置
+ 	[group1]
 	group_name=group1
 	storage_server_port=23000
 	store_path_count=1
