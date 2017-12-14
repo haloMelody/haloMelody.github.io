@@ -6,22 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://halomelody.github.io">
-  <title>学习笔记-FastDFS | 个人博客</title>
+  <title>Tag: JDK | 个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="内容简介 在跟随项目实践过程中，代码中需要使用上传图片的功能，其中使用了FastDFS作为图片服务器，在此记录一下搭建FastDFS服务器的过程">
-<meta name="keywords" content="Linux,FastDFS">
-<meta property="og:type" content="article">
-<meta property="og:title" content="学习笔记-FastDFS">
-<meta property="og:url" content="https://halomelody.github.io/2017/08/20/学习笔记-FastDFS/index.html">
+  <meta name="description" content="贼溜">
+<meta property="og:type" content="website">
+<meta property="og:title" content="个人博客">
+<meta property="og:url" content="https://halomelody.github.io/tags/JDK/index.html">
 <meta property="og:site_name" content="个人博客">
-<meta property="og:description" content="内容简介 在跟随项目实践过程中，代码中需要使用上传图片的功能，其中使用了FastDFS作为图片服务器，在此记录一下搭建FastDFS服务器的过程">
+<meta property="og:description" content="贼溜">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://ou36vgj5u.bkt.clouddn.com/image/blog/fastdfs/fastdfs-show.png">
-<meta property="og:updated_time" content="2017-11-24T02:53:57.254Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="学习笔记-FastDFS">
-<meta name="twitter:description" content="内容简介 在跟随项目实践过程中，代码中需要使用上传图片的功能，其中使用了FastDFS作为图片服务器，在此记录一下搭建FastDFS服务器的过程">
-<meta name="twitter:image" content="http://ou36vgj5u.bkt.clouddn.com/image/blog/fastdfs/fastdfs-show.png">
+<meta name="twitter:title" content="个人博客">
+<meta name="twitter:description" content="贼溜">
   
     <link rel="alternative" href="/atom.xml" title="个人博客" type="application/atom+xml">
   
@@ -177,264 +173,36 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-学习笔记-FastDFS" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      学习笔记-FastDFS
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2017" class="archive-year">2017</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/08/13/学习笔记-dubbo监控和注册中心/" class="archive-article-date">
+  	<time datetime="2017-08-13T03:51:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-13</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/08/13/学习笔记-dubbo监控和注册中心/">学习笔记-dubbo监控和注册中心</a>
     </h1>
   
 
-        
-          </br>
-          <a class="article-count-a-tag" href="javascript:void(0);">
-            <span class="icon-sort"></span>
-            <span id="busuanzi_container_page_pv" class="article-count-a-span">
-                    被偷看了：<span id="busuanzi_value_page_pv"></span>次
-            </span>
-          </a>
-         
-        
-        <a href="/2017/08/20/学习笔记-FastDFS/" class="archive-article-date">
-  	<time datetime="2017-08-20T08:51:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li><h2 id="内容简介"><a href="#内容简介" class="headerlink" title="内容简介"></a>内容简介</h2><blockquote>
-<p>在跟随项目实践过程中，代码中需要使用上传图片的功能，其中使用了FastDFS作为图片服务器，在此记录一下搭建FastDFS服务器的过程</p>
-</blockquote>
-</li>
-</ul>
-<hr>
-<a id="more"></a>
-<ul>
-<li><h2 id="框架介绍"><a href="#框架介绍" class="headerlink" title="框架介绍"></a>框架介绍</h2><h3 id="1-什么是FastDFS"><a href="#1-什么是FastDFS" class="headerlink" title="1.什么是FastDFS"></a>1.什么是FastDFS</h3><blockquote>
-<p>FastDFS是用c语言编写的一款开源的分布式文件系统。FastDFS为互联网量身定制，充分考虑了冗余备份、负载均衡、线性扩容等机制，并注重高可用、高性能等指标，使用FastDFS很容易搭建一套高性能的文件服务器集群提供文件上传、下载等服务。</p>
-</blockquote>
-<h3 id="2-FastDFS架构"><a href="#2-FastDFS架构" class="headerlink" title="2.FastDFS架构"></a>2.FastDFS架构</h3><blockquote>
-<p>FastDFS架构包括 Tracker server和Storage server。客户端请求Tracker server进行文件上传、下载，通过Tracker server调度最终由Storage server完成文件上传和下载。<br> Tracker server作用是负载均衡和调度，通过Tracker server在文件上传时可以根据一些策略找到Storage server提供文件上传服务。可以将tracker称为追踪服务器或调度服务器。<br> Storage server作用是文件存储，客户端上传的文件最终存储在Storage服务器上，Storage server没有实现自己的文件系统而是利用操作系统 的文件系统来管理文件。可以将storage称为存储服务器,如下图：</p>
-</blockquote>
- <center><img src="http://ou36vgj5u.bkt.clouddn.com/image/blog/fastdfs/fastdfs-show.png" alt="fastdfs-show"></center>
-
-<h3 id="3-Tracker-集群"><a href="#3-Tracker-集群" class="headerlink" title="3.Tracker 集群"></a>3.Tracker 集群</h3><blockquote>
-<p>FastDFS集群中的Tracker server可以有多台，Tracker server之间是相互平等关系同时提供服务，Tracker server不存在单点故障。客户端请求Tracker server采用轮询方式，如果请求的tracker无法提供服务则换另一个tracker。</p>
-</blockquote>
-<h3 id="4-Storage集群"><a href="#4-Storage集群" class="headerlink" title="4.Storage集群"></a>4.Storage集群</h3><blockquote>
-<p>Storage集群采用了分组存储方式。storage集群由一个或多个组构成，集群存储总容量为集群中所有组的存储容量之和。一个组由一台或多台存储服务器组成，组内的Storage server之间是平等关系，不同组的Storage server之间不会相互通信，同组内的Storage server之间会相互连接进行文件同步，从而保证同组内每个storage上的文件完全一致的。一个组的存储容量为该组内存储服务器容量最小的那个，由此可见组内存储服务器的软硬件配置最好是一致的。<br> 采用分组存储方式的好处是灵活、可控性较强。比如上传文件时，可以由客户端直接指定上传到的组也可以由tracker进行调度选择。一个分组的存储服务器访问压力较大时，可</p>
-</blockquote>
-</li>
-<li><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="1-前提条件"><a href="#1-前提条件" class="headerlink" title="1.前提条件"></a>1.前提条件</h3><blockquote>
-<p>安装好了VM+CentOs6.4（网络等配置都可正常使用）<br>已安装nginx(非必须)<br>JDK1.7</p>
-</blockquote>
-<h3 id="2-安装所需"><a href="#2-安装所需" class="headerlink" title="2.安装所需"></a>2.安装所需</h3><blockquote>
-<p>fastdfs-nginx-module_v1.16.tar.gz - 集成nginx所需模块<br><a href="http://sourceforge.net/projects/FastDFS/" target="_blank" rel="noopener">FastDFS_v5.05.tar.gz</a> - FastDFS源码，C语言编写，需要手动编译<br>jdk-7u67-linux-x64.tar.gz<br>nginx-1.8.0.tar.gz - nginx源码,C语言编写，需要手动编译<br>libfastcommonV1.0.7.tar.gz - FastDFS官方提供的基础库<br>perl-5.20.2.tar.gz - 编译基础库所需要的语言环境</p>
-</blockquote>
-</li>
-</ul>
-<hr>
-<ul>
-<li><h2 id="服务搭建"><a href="#服务搭建" class="headerlink" title="服务搭建"></a>服务搭建</h2><h3 id="1-环境介绍"><a href="#1-环境介绍" class="headerlink" title="1.环境介绍"></a>1.环境介绍</h3><ul>
-<li><p>VM + CentOs6.4 + Jdk1.7 + nginx1.8.0</p>
-</li>
-<li><p>此处记录的是在同一台服务器上同时搭建tracker和storage,并且都是一个，组成的是一个最简便的集群环境。</p>
-</li>
-</ul>
-<hr>
-<h3 id="2-安装libfastcommon基础库"><a href="#2-安装libfastcommon基础库" class="headerlink" title="2.安装libfastcommon基础库"></a>2.安装libfastcommon基础库</h3><ul>
-<li><p>将压缩包上传至虚拟机/usr/local下，解压缩</p>
-</li>
-<li><p>进入文件夹，看到有make.sh文件，执行 ./make.sh ,初次安装会报错，因为缺少必要的语言运行环境，执行下列命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># FastDFS依赖libevent库，需要安装：</span><br><span class="line">   yum -y install libevent</span><br><span class="line"></span><br><span class="line"># 安装gcc库,若之前安装过nginx，则不需要重复安装</span><br><span class="line">yum -y install gcc </span><br><span class="line">yum -y install gcc -c++</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装Perl语言环境，需要下载源码perl-5.20.2.tar.gz,上传至/usr/local下，解压缩，进入目录，依次执行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ tar -xzf perl-5.x.y.tar.gz //解压缩</span><br><span class="line">$ cd perl-5.x.y</span><br><span class="line">$ ./Configure -de</span><br><span class="line">$ make</span><br><span class="line">$ make test</span><br><span class="line">$ make install</span><br><span class="line">$ perl -v //检测是否安装成功</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>环境准备完成后再进入libfastcommon目录，执行 ./make.sh ，库会安装在/usr/lib64目录下，但是FastDFS设置的lib目录是/usr/local/lib ,所以此时可以有两种方式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 第一种方式，复制一份</span><br><span class="line">cp /usr/lib64/libfastcommon.so /usr/local/lib  </span><br><span class="line"></span><br><span class="line"># 第二种方式，建立软连接（推荐）</span><br><span class="line">ln -s /usr/lib64/libfastcommon.so /usr/local/lib/libfastcommon.so</span><br><span class="line">   ln -s /usr/lib64/libfastcommon.so /usr/lib/libfastcommon.so</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>到此基础库安装完成</p>
-</li>
-</ul>
-<hr>
-<h3 id="3-安装FastDFS"><a href="#3-安装FastDFS" class="headerlink" title="3.安装FastDFS"></a>3.安装FastDFS</h3><ul>
-<li><p>将FastDFS_v5.05.tar.gz拷贝至/usr/local/下,依次执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf FastDFS_v5.05.tar.gz</span><br><span class="line">cd FastDFS</span><br><span class="line">./make.sh</span><br><span class="line">./make.sh install</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果安装过程中没有报错，并且在/etc/fdfs目录中包含配置文件，说明安装成功，随后将FastDFS目录下的conf下的文件拷贝到/etc/fdfs/下</p>
-</li>
-</ul>
-<hr>
-<h3 id="4-配置tracker"><a href="#4-配置tracker" class="headerlink" title="4.配置tracker"></a>4.配置tracker</h3><ul>
-<li><p>前面所执行的步骤无论是tracker还是storage都是必须的，之后若要在不同的虚拟机上分别配置，主要就是对FastDFS安装完成之后的配置过程的不同，此处演示的是在同一台虚拟机上安装配置</p>
-</li>
-<li><p>初始化文件目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 配置tracker所需要的base_path</span><br><span class="line">mkdir /home/fastdfs_tracker</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>进入/etc/fdfs目录，复制tracker.conf.simple并改名为tracker.conf</p>
-</li>
-<li><p>编辑tracker.conf，对以下几个配置进行修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 是否启用此配置文件</span><br><span class="line">disabled = true </span><br><span class="line"># 端口号，一般使用这个默认端口</span><br><span class="line">port = 22122 </span><br><span class="line"># tracker的数据和日志文件目录（预先创建）</span><br><span class="line">base_path = /home/fastdfs_tracker</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动tracker,执行命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf restart</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看日志观察启动过程中是否报错</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -100f /home/fastdfs_tracker/logs/tracker.log 	(base_path路径)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动没有问题，则设置tracker为开机自动启动,编辑：vi /etc/rc.d/rc.local ， 将此命令加入末行。至此，tracker安装完毕</p>
-</li>
-</ul>
-<hr>
-<h3 id="5-配置storage"><a href="#5-配置storage" class="headerlink" title="5.配置storage"></a>5.配置storage</h3><ul>
-<li><p>若更换虚拟机则需要执行以上的步骤，此处继续在原虚拟机上执行</p>
-</li>
-<li><p>初始化文件目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 配置storage所需要的base_path,保存日志信息</span><br><span class="line">mkdir /home/fastdfs_storage_info </span><br><span class="line"># 配置storage所需要的base_path,保存数据文件</span><br><span class="line">mkdir /home/fastdfs_storage_data</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>进入/etc/fdfs目录，复制storage.conf.simple并改名为storage.conf</p>
-</li>
-<li><p>编辑storage.conf，对以下几个配置进行修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 是否启用此配置文件</span><br><span class="line">disabled = true </span><br><span class="line"># 组名</span><br><span class="line">group_name = group1</span><br><span class="line"># 端口,同一组必须保证端口统一</span><br><span class="line">port = 23001</span><br><span class="line"># 日志目录</span><br><span class="line">base_path = /home/fastdfs_storage_info</span><br><span class="line"># 存储路径个数，与组成员个数保持一致</span><br><span class="line">store_path_count = 1</span><br><span class="line"># 数据文件存储路径，果有多个挂载磁盘则定义多个store_path，后缀递增即可</span><br><span class="line">store_path0 = /home/fastdfs_storage_data</span><br><span class="line"># tracker服务器IP和端口，如果有多个则配置多个tracker</span><br><span class="line">tracker_server = 192.168.XX.XXX:22122</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动storage,执行命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/fdfs_storaged /etc/fdfs/storage.conf restart</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>观察启动过程中是否报错</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 通过日志观察</span><br><span class="line">tail -100f /home/fastdfs_storage_info/logs/storaged.log</span><br><span class="line"># 通过监控观察是否成功注册到tracker</span><br><span class="line">/usr/bin/fdfs_monitor /etc/fdfs/storage.conf</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动没有问题，则设置storage为开机自动启动,编辑：vi /etc/rc.d/rc.local ， 将此命令加入末行。至此，storage安装完毕</p>
-</li>
-</ul>
-<hr>
-<h3 id="6-测试服务"><a href="#6-测试服务" class="headerlink" title="6.测试服务"></a>6.测试服务</h3><ul>
-<li><p>FastDFS安装成功可通过/usr/bin/fdfs_test测试上传、下载等操作。</p>
-</li>
-<li><p>编辑/etc/fdfs/client.conf，修改以下配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">base_path=/home/fastdfs_tracker</span><br><span class="line">tracker_server=192.168.XX.XXX:22122</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用格式：/usr/bin/fdfs_test 客户端配置文件地址  upload  上传文件,例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/fdfs_test /etc/fdfs/client.conf upload test.jpg</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>上传后会打印返回信息，可以观察是否上传成功</p>
-<blockquote>
-<p><a href="http://192.168.XX.XXX/group1/M00/00/00/wKhlBVVY2M-AM_9DAAAT7-0xdqM485_big.png" target="_blank" rel="noopener">http://192.168.XX.XXX/group1/M00/00/00/wKhlBVVY2M-AM_9DAAAT7-0xdqM485_big.png</a> 就是文件的下载路径。</p>
-<p>对应storage服务器上的：/home/fastdfs/fdfs_storage_data/data/00/00/wKhlBVVY2M-AM_9DAAAT7-0xdqM485_big.png文件。</p>
-</blockquote>
-</li>
-<li><p>由于现在还没有和nginx整合无法使用http下载</p>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
-<ul>
-<li><h2 id="整合nginx"><a href="#整合nginx" class="headerlink" title="整合nginx"></a>整合nginx</h2><ul>
-<li><p>1.此处讨论的是在之前nginx上重新安装nginx（添加了新模块）的情况，如何安装nginx可以参考之前的博文：学习笔记-nginx</p>
-</li>
-<li><p>2.不管是在tracker上安装还是storage安装nginx，都需要先上传FastDFS-nginx-module模块，并且修改相应配置</p>
-<h3 id="3-tracker上安装nginx"><a href="#3-tracker上安装nginx" class="headerlink" title="3.tracker上安装nginx"></a>3.tracker上安装nginx</h3><blockquote>
-<p>在每个tracker上安装nginx，的主要目的是做负载均衡及实现高可用。此处只有一个tracker.为配置nginx</p>
-</blockquote>
-<h3 id="4-在storage上安装nginx"><a href="#4-在storage上安装nginx" class="headerlink" title="4.在storage上安装nginx"></a>4.在storage上安装nginx</h3></li>
-<li><p>库环境在此处不再赘述，由于之前已经安装了nginx，此处需要添加新模块FastDFS-nginx-module，添加之前，先下载该模块并且修改相应的配置文件</p>
-</li>
-<li><p>上传FastDFS-nginx-module至/usr/java目录，解压缩，进入/FastDFS-nginx-module/src目录下，编辑config文件，将/usr/local改为/usr (将/local去掉)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CORE_INCS=&quot;$CORE_INCS /usr/include/fastdfs /usr/include/fastcommon/&quot;</span><br><span class="line">CORE_LIBS=&quot;$CORE_LIBS -L/usr/lib -lfastcommon -lfdfsclient&quot;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>将FastDFS-nginx-module/src下的mod_FastDFS.conf拷贝至/etc/fdfs/下,并且修改配置（类比按照自己实际情况修改）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">base_path = /home/fastdfs_storage_info</span><br><span class="line">tracker_server = XX</span><br><span class="line">storage_server_port = XX</span><br><span class="line">group_name = XX</span><br><span class="line">url_have_group_name = true #是否在url中使用组名</span><br><span class="line">store_path_count = 1</span><br><span class="line">store_path0 = /home/fastdfs_storage_data</span><br><span class="line">group_count = 1</span><br><span class="line">#[group1] 最后根据自己实际情况，为每一个组添加如下配置</span><br><span class="line">group_name=group1</span><br><span class="line">storage_server_port=23000</span><br><span class="line">store_path_count=1</span><br><span class="line">store_path0=/home/fastdfs_storage_data</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>进入nginx源码的目录（不是编译后生产的目录）：/usr/java/nginx-1.8.0执行命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">./configure \</span><br><span class="line">--prefix=/usr/local/nginx \</span><br><span class="line">--pid-path=/var/run/nginx/nginx.pid \</span><br><span class="line">--lock-path=/var/lock/nginx.lock \</span><br><span class="line">--error-log-path=/var/log/nginx/error.log \</span><br><span class="line">--http-log-path=/var/log/nginx/access.log \</span><br><span class="line">--with-http_gzip_static_module \</span><br><span class="line">--http-client-body-temp-path=/var/temp/nginx/client \</span><br><span class="line">--http-proxy-temp-path=/var/temp/nginx/proxy \</span><br><span class="line">--http-fastcgi-temp-path=/var/temp/nginx/fastcgi \</span><br><span class="line">--http-uwsgi-temp-path=/var/temp/nginx/uwsgi \</span><br><span class="line">--http-scgi-temp-path=/var/temp/nginx/scgi</span><br><span class="line">--add-module=/usr/java/fastdfs-nginx-module/src  //XXX为模块存在路径</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>成功后执行make，重新编译，会生成新的nginx执行文件，不要执行make install，在obj目录下，将obj/nginx复制到旧版本的nginx安装目录下，将旧版本的改为nginx.bak</p>
-</li>
-<li><p>测试新的nginx程序是否正确，执行/usr/local/nginx/sbin/nginx -t , 若显示以下信息则测试通过</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nginx: theconfiguration file /usr/local/nginx/conf/nginx.conf syntax is ok</span><br><span class="line">nginx:configuration file /usr/local/nginx/conf/nginx.conf test issuccessful</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>FastDFS设置的lib目录是/usr/local/lib ,所以此时可以有两种方式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 第一种方式，复制一份</span><br><span class="line">cp /usr/lib64/libfdfsclient.so /usr/local/lib  </span><br><span class="line"></span><br><span class="line"># 第二种方式，建立软连接（推荐）</span><br><span class="line">ln -s /usr/lib64/libfdfsclient.so /usr/local/lib/libfdfsclient.so</span><br><span class="line">   ln -s /usr/lib64/libfdfsclient.so /usr/lib/libfdfsclient.so</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>最后需要配置nginx反向代理，进入nginx安装目录，编辑nginx.conf文件，添加server节点：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">       listen       80;</span><br><span class="line">       server_name  localhost;</span><br><span class="line"></span><br><span class="line">       location /group1/M00 &#123;</span><br><span class="line">               root /home/fastdfs_storage_data/data;</span><br><span class="line">               ngx_fastdfs_module;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       # location / &#123;</span><br><span class="line">          # root   html;</span><br><span class="line">          # index  index.html index.htm;</span><br><span class="line">       # &#125;</span><br><span class="line"></span><br><span class="line">       error_page   500 502 503 504  /50x.html;</span><br><span class="line">       location = /50x.html &#123;</span><br><span class="line">           root   html81;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置好节点后，依次重启tracker,重启storage，重启nginx，利用上述测试上传图片返回的url，在浏览器中访问，检测是否可以成功访问</p>
-<h2 id="5-坑和排坑"><a href="#5-坑和排坑" class="headerlink" title="5.坑和排坑"></a>5.坑和排坑</h2></li>
-<li><p>我在操作过程中，卡在重新安装nginx这一个步骤很久，启动nginx的时候一直不成功，此时可以通过查看nginx的日志文件来查看错误，这个很重要</p>
-</li>
-<li><p>编辑nginx.conf文件，添加server节点时，注意监听的端口，80端口只能配置一个</p>
-</li>
-<li><p>若正常启动了nginx还是不能成功访问图片（图片已经成功上传的情况下），也可以通过查看日志来解决，比如我访问的时候路径里面会带上/html/group1/…等路径，就是因为下面那个默认的location没有注释掉导致的</p>
-</li>
-<li><p>看日志，很重要 tail -100f /var/log/nginx/error.log </p>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
-<ul>
-<li><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2></li>
-</ul>
-<blockquote>
-<p>搭这个服务器花了差不多一天的时间。。。过程中难免遇到很多坑，多查资料多百度，文中记录的信息有限，中途说不定也有遗漏的信息，欢迎指正，仅供参考！</p>
-</blockquote>
-<hr>
-
-      
-
-      
-      	<blockquote>
-			<p>
-				本文作者： little dragon<br>
-				本文链接： <a href="/2017/08/20/学习笔记-FastDFS/">2017/08/20/学习笔记-FastDFS/</a><br>
-				版权声明： 原创文章，有问题请评论中留言。非商业转载请注明作者及出处。
-			</p>
-		</blockquote>
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>老板大气，谢谢老板！<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="http://ou36vgj5u.bkt.clouddn.com/image/blog/alipay.JPG">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="http://ou36vgj5u.bkt.clouddn.com/image/blog/wechatpay.JPG">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -444,13 +212,21 @@ var _hmt = _hmt || [];
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">FastDFS</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Dubbo</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JDK</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Zookeeper</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -463,126 +239,17 @@ var _hmt = _hmt || [];
 	</div>
 
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=https://halomelody.github.io/2017/08/20/学习笔记-FastDFS/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
   
   
-    <a href="/2017/08/10/学习笔记-虚拟机/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">学习笔记-虚拟机</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内容简介"><span class="toc-number">1.</span> <span class="toc-text">内容简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#框架介绍"><span class="toc-number">2.</span> <span class="toc-text">框架介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-什么是FastDFS"><span class="toc-number">2.1.</span> <span class="toc-text">1.什么是FastDFS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-FastDFS架构"><span class="toc-number">2.2.</span> <span class="toc-text">2.FastDFS架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Tracker-集群"><span class="toc-number">2.3.</span> <span class="toc-text">3.Tracker 集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Storage集群"><span class="toc-number">2.4.</span> <span class="toc-text">4.Storage集群</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#准备工作"><span class="toc-number">3.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-前提条件"><span class="toc-number">3.1.</span> <span class="toc-text">1.前提条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-安装所需"><span class="toc-number">3.2.</span> <span class="toc-text">2.安装所需</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#服务搭建"><span class="toc-number">4.</span> <span class="toc-text">服务搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-环境介绍"><span class="toc-number">4.1.</span> <span class="toc-text">1.环境介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-安装libfastcommon基础库"><span class="toc-number">4.2.</span> <span class="toc-text">2.安装libfastcommon基础库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-安装FastDFS"><span class="toc-number">4.3.</span> <span class="toc-text">3.安装FastDFS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-配置tracker"><span class="toc-number">4.4.</span> <span class="toc-text">4.配置tracker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-配置storage"><span class="toc-number">4.5.</span> <span class="toc-text">5.配置storage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-测试服务"><span class="toc-number">4.6.</span> <span class="toc-text">6.测试服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#整合nginx"><span class="toc-number">5.</span> <span class="toc-text">整合nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-tracker上安装nginx"><span class="toc-number">5.1.</span> <span class="toc-text">3.tracker上安装nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-在storage上安装nginx"><span class="toc-number">5.2.</span> <span class="toc-text">4.在storage上安装nginx</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-坑和排坑"><span class="toc-number">6.</span> <span class="toc-text">5.坑和排坑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结语"><span class="toc-number">7.</span> <span class="toc-text">结语</span></a></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-  <div id="SOHUCS" sid="学习笔记-FastDFS" ></div> 
-<script type="text/javascript"> 
-(function(){ 
-var appid = "cytbHTwMG"; 
-var conf = "02ab6b1fcfdf23a3050084203c3264db"; 
-var width = window.innerWidth || document.documentElement.clientWidth; 
-if (width < 960) { 
-window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="//changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("//changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -612,9 +279,9 @@ window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="tex
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
@@ -698,15 +365,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">yilia</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">存储过程</a>
+                <a href="javascript:void(0)" class="js-tag color2">nodejs</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -718,6 +377,26 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">yilia</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Dubbo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">JDK</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">VMware</a>
               </li>
              
@@ -726,7 +405,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">nodejs</a>
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">存储过程</a>
               </li>
             
             <div class="clearfix"></div>
