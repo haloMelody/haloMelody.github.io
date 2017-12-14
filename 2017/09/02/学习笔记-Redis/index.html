@@ -8,18 +8,20 @@
   <link rel="dns-prefetch" href="https://halomelody.github.io">
   <title>学习笔记-Redis | 个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="内容简介">
-<meta name="keywords" content="Linux">
+  <meta name="description" content="内容简介 此篇文章主要介绍了Redis的安装和简单使用，Redis在行业间应用相对较为广泛，并且具备数据持久化的优势，所以也是值得学习了解的一项技术，此处只是简单的介绍，更详细内容大家可以参考网上其他资料，希望对路过的你有所帮助^_^">
+<meta name="keywords" content="Linux,Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="学习笔记-Redis">
 <meta property="og:url" content="https://halomelody.github.io/2017/09/02/学习笔记-Redis/index.html">
 <meta property="og:site_name" content="个人博客">
-<meta property="og:description" content="内容简介">
+<meta property="og:description" content="内容简介 此篇文章主要介绍了Redis的安装和简单使用，Redis在行业间应用相对较为广泛，并且具备数据持久化的优势，所以也是值得学习了解的一项技术，此处只是简单的介绍，更详细内容大家可以参考网上其他资料，希望对路过的你有所帮助^_^">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-12-11T06:35:26.463Z">
+<meta property="og:image" content="http://ou36vgj5u.bkt.clouddn.com/image/blog/redis/redis_cluster.png">
+<meta property="og:updated_time" content="2017-12-14T09:08:10.958Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习笔记-Redis">
-<meta name="twitter:description" content="内容简介">
+<meta name="twitter:description" content="内容简介 此篇文章主要介绍了Redis的安装和简单使用，Redis在行业间应用相对较为广泛，并且具备数据持久化的优势，所以也是值得学习了解的一项技术，此处只是简单的介绍，更详细内容大家可以参考网上其他资料，希望对路过的你有所帮助^_^">
+<meta name="twitter:image" content="http://ou36vgj5u.bkt.clouddn.com/image/blog/redis/redis_cluster.png">
   
     <link rel="alternative" href="/atom.xml" title="个人博客" type="application/atom+xml">
   
@@ -205,21 +207,77 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <ul>
-<li><h2 id="内容简介"><a href="#内容简介" class="headerlink" title="内容简介"></a>内容简介</h2></li>
+<li><h2 id="内容简介"><a href="#内容简介" class="headerlink" title="内容简介"></a>内容简介</h2><blockquote>
+<p>此篇文章主要介绍了Redis的安装和简单使用，Redis在行业间应用相对较为广泛，并且具备数据持久化的优势，所以也是值得学习了解的一项技术，此处只是简单的介绍，更详细内容大家可以参考网上其他资料，希望对路过的你有所帮助^_^</p>
+</blockquote>
+</li>
 </ul>
 <hr>
 <a id="more"></a>
 <ul>
-<li><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="1-安装所需"><a href="#1-安装所需" class="headerlink" title="1.安装所需"></a>1.安装所需</h3></li>
+<li><h2 id="Redis安装"><a href="#Redis安装" class="headerlink" title="Redis安装"></a>Redis安装</h2><h3 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1.准备工作"></a>1.准备工作</h3><ul>
+<li>Redis是c语言开发的，安装redis需要c语言的编译环境，所以需要先安装一些语言库：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc-c++</span><br><span class="line">yum -y install gcc automake autoconf libtool make/yum install gcc-c++</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h3 id="2-安装步骤"><a href="#2-安装步骤" class="headerlink" title="2.安装步骤"></a>2.安装步骤</h3><ul>
+<li><p>上传安装包，解压，进入目录</p>
+</li>
+<li><p>make -&gt; make install PREFIX=/usr/local/redis (指定安装路径)</p>
+</li>
+<li><p>以上步骤即已经安装完成</p>
+</li>
+</ul>
+<hr>
+<h3 id="3-相关操作"><a href="#3-相关操作" class="headerlink" title="3.相关操作"></a>3.相关操作</h3><ul>
+<li><p>前台启动:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/redis/bin redis.server</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>后台启动:首先将解压缩后的目录下的redis.conf文件复制到安装路径下,随后修改配置文件，将deamonize no -&gt; deamonize yes</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cp redis.conf /usr/local/redis/bin/</span><br><span class="line"># 后台启动</span><br><span class="line">redis.server redis.conf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Redis客户端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 通过后面的参数指定连接的IP和端口</span><br><span class="line">./redis-cli (-h 192.168.XX.100 -p 6379) </span><br><span class="line"># 关闭</span><br><span class="line">./redis-cli shutdown / kill XXX</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数据类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">set str abc / get str / keys * 查看key/ incr/decr key1 (生成key并且加1) / del key</span><br><span class="line"></span><br><span class="line">hash : / hset hash1 filed1 1 / hget hash1 filed1 / hkeys hash1 (列举某个hash列表的key) / hvals hash1 (列举hash的值) /hgetall hash1 (key and val) </span><br><span class="line">/ hdel hash1 filed1</span><br><span class="line"></span><br><span class="line">list : / lpush list1 1 2 3 (从左边添加) / rpush list1 a b c (从左边添加) / lrange list1 0 -1 (列举全部)/lpop（rpop） list1 左(右)边取值</span><br><span class="line"></span><br><span class="line">set : 无序不可重复 / sadd set1 a b c / srem set1 a 删除 / smember set1 查看列表 / sdiff seta setb a中特有元素，差集 / sunion seta setb 交集</span><br><span class="line"></span><br><span class="line">expire key1 100 设置过期时间 / ttl key1 查看过期时间（正数-正在倒计时，-1 - 持久化的 ， -2 = 不存在的）/ persist key1 持久化key</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h3 id="4-Redis集群"><a href="#4-Redis集群" class="headerlink" title="4.Redis集群"></a>4.Redis集群</h3><ul>
+<li><p>Redis集群中至少应该有三个节点。要保证集群的高可用，需要每个节点有一个备份机。Redis集群至少需要6台服务器。搭建伪分布式。可以使用一台虚拟机运行6个redis实例。需要修改redis的端口号7001-7006</p>
+</li>
+<li><p>使用ruby脚本搭建集群。需要ruby的运行环境，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 安装ruby</span><br><span class="line">yum install ruby</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>上传ruby脚本运行使用的包，redis-3.0.0.gem</p>
+</li>
+<li><p>运行安装ruby脚本运行使用的包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install redis-3.0.0.gem</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建redis-cluster集群目录，随后将redis解压包redis-3.0.0/src/redis-trib.rb 复制到集群目录下</p>
+</li>
+<li><p>在redis-cluster目录下复制留个redis，模拟六台服务器上的redis,需要运行在不同的端口7001-7006，此处运行在同一台服务器上，启动，并且每个redis的配置文件中，将 cluster-enabled yes 配置打开</p>
+</li>
+<li><p>为方便启动或者关闭集群中的redis，可以创建两个脚本文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># start-all.sh ,根据实际情况修改</span><br><span class="line">cd redis01</span><br><span class="line">./redis-server redis.conf</span><br><span class="line">cd ..</span><br><span class="line">cd redis02</span><br><span class="line">./redis-server redis.conf</span><br><span class="line">cd ..</span><br><span class="line">cd redis03</span><br><span class="line">./redis-server redis.conf</span><br><span class="line">cd ..</span><br><span class="line">cd redis04</span><br><span class="line">./redis-server redis.conf</span><br><span class="line">cd ..</span><br><span class="line">cd redis05</span><br><span class="line">./redis-server redis.conf</span><br><span class="line">cd ..</span><br><span class="line">cd redis06</span><br><span class="line">./redis-server redis.conf</span><br><span class="line">cd ..</span><br><span class="line"></span><br><span class="line"># shutdown-all.sh ,根据实际情况修改</span><br><span class="line">redis01/redis-cli -p 7001 shutdown</span><br><span class="line">redis02/redis-cli -p 7002 shutdown</span><br><span class="line">redis03/redis-cli -p 7003 shutdown</span><br><span class="line">redis04/redis-cli -p 7004 shutdown</span><br><span class="line">redis05/redis-cli -p 7005 shutdown</span><br><span class="line">redis06/redis-cli -p 7006 shutdown</span><br><span class="line"></span><br><span class="line"># 修改文件的执行权限</span><br><span class="line">chmod u+x start-all.sh</span><br><span class="line">chmod u+x shutdow-all.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在redis-cluster目录下使用ruby脚本搭建集群</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./redis-trib.rb create </span><br><span class="line">--replicas 1 （表示每个节点有一个备份机）</span><br><span class="line">192.168.XX.153:7001 192.168.XX.153:7002 192.168.XX.153:7003 192.168.XX.153:7004 192.168.XX.153:7005 192.168.XX.153:7006</span><br></pre></td></tr></table></figure>
+<p><img src="http://ou36vgj5u.bkt.clouddn.com/image/blog/redis/redis_cluster.png" alt="redis-cluster"></p>
+</li>
+<li><p>集群使用方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 可以用集群中除备份机以外的任意一台redis连接集群操作</span><br><span class="line"># 集群操作过程中会随机切换到集群中的redis上进行存储</span><br><span class="line">redis01/redis-cli -p 7002 -c</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
 </ul>
 <hr>
 <ul>
-<li><h2 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h2><h3 id="1-虚拟机安装"><a href="#1-虚拟机安装" class="headerlink" title="1.虚拟机安装"></a>1.虚拟机安装</h3></li>
-</ul>
-<pre><code>---
-</code></pre><hr>
-<ul>
-<li><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2></li>
+<li><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><blockquote>
+<p>此处简单介绍了redis在Linux系统上的相关操作，redis与系统之间的集成也是一个重点，感兴趣的同学可以参考其他资料进行学习，文中若有不对的地方，欢迎指正，仅供参考。</p>
+</blockquote>
+</li>
 </ul>
 <hr>
 
@@ -277,6 +335,10 @@ var _hmt = _hmt || [];
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Redis</a>
         		</li>
       		
 		</ul>
@@ -395,7 +457,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内容简介"><span class="toc-number">1.</span> <span class="toc-text">内容简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#准备工作"><span class="toc-number">2.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-安装所需"><span class="toc-number">2.1.</span> <span class="toc-text">1.安装所需</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装过程"><span class="toc-number">3.</span> <span class="toc-text">安装过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-虚拟机安装"><span class="toc-number">3.1.</span> <span class="toc-text">1.虚拟机安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结语"><span class="toc-number">4.</span> <span class="toc-text">结语</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内容简介"><span class="toc-number">1.</span> <span class="toc-text">内容简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis安装"><span class="toc-number">2.</span> <span class="toc-text">Redis安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-准备工作"><span class="toc-number">2.1.</span> <span class="toc-text">1.准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-安装步骤"><span class="toc-number">2.2.</span> <span class="toc-text">2.安装步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-相关操作"><span class="toc-number">2.3.</span> <span class="toc-text">3.相关操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Redis集群"><span class="toc-number">2.4.</span> <span class="toc-text">4.Redis集群</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结语"><span class="toc-number">3.</span> <span class="toc-text">结语</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -543,6 +605,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">yilia</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">存储过程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
@@ -551,11 +625,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">yilia</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
+                <a href="javascript:void(0)" class="js-tag color1">Redis</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -571,19 +641,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">VMware</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">CentOs</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">存储过程</a>
               </li>
             
             <div class="clearfix"></div>
